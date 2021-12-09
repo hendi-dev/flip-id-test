@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, ActivityIndicator, FlatList, View} from 'react-native';
 import {TransactionRepository} from '../repository/TransactionRepository';
+import {SearchView} from '../view/SearchView';
 import {TransactionListItem} from '../view/TransactionListItem';
 
 const styles = StyleSheet.create({
@@ -29,20 +30,25 @@ class TransactionList extends React.Component {
     return (
       <View style={styles.container}>
         {isLoading ? (
-          <ActivityIndicator />
+          <View style={styles.container}>
+            <ActivityIndicator />
+          </View>
         ) : (
-          <FlatList
-            data={data}
-            keyExtractor={({id}, index) => id}
-            renderItem={({item}) => (
-              <TransactionListItem
-                item={item}
-                onItemClick={() =>
-                  this.props.navigation.navigate('TransactionDetail')
-                }
-              />
-            )}
-          />
+          <View>
+            <SearchView />
+            <FlatList
+              data={data}
+              keyExtractor={({id}, index) => id}
+              renderItem={({item}) => (
+                <TransactionListItem
+                  item={item}
+                  onItemClick={() =>
+                    this.props.navigation.navigate('TransactionDetail')
+                  }
+                />
+              )}
+            />
+          </View>
         )}
       </View>
     );
