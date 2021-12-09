@@ -4,6 +4,27 @@ import toTitleCase, {formatDate, formatPrice} from '../util/Util';
 
 const cornerRadius = 8;
 
+const baseStatusStyle = {
+  height: 32,
+  paddingHorizontal: 8,
+  margin: 8,
+  borderRadius: cornerRadius,
+  textAlignVertical: 'center',
+  fontWeight: '700',
+};
+
+const succesStatusStyle = {
+  ...baseStatusStyle,
+  backgroundColor: 'green',
+  color: 'white',
+};
+const pendingStatusStyle = {
+  ...baseStatusStyle,
+  borderColor: 'orange',
+  borderWidth: 1,
+  color: 'orange',
+};
+
 const styles = StyleSheet.create({
   bankLabel: {
     fontSize: 18,
@@ -24,6 +45,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     margin: 16,
+    flex: 1,
   },
   card: {
     shadowColor: 'gray',
@@ -36,14 +58,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginVertical: 4,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   cardLeft: {
     width: 8,
+    height: '100%',
     backgroundColor: 'green',
-    position: 'relative',
     borderBottomStartRadius: cornerRadius,
     borderTopStartRadius: cornerRadius,
   },
+  succesStatusStyle,
+  pendingStatusStyle,
 });
 
 export class TransactionListItem extends React.Component {
@@ -73,6 +98,9 @@ export class TransactionListItem extends React.Component {
               )}
             </Text>
           </View>
+          <Text style={this.getStatusStyle(this.props.item.status)}>
+            {toTitleCase(this.props.item.status)}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -84,5 +112,13 @@ export class TransactionListItem extends React.Component {
 
   getAmountAndDateLabel(amount, date) {
     return formatPrice(amount) + ' . ' + formatDate(date);
+  }
+
+  getStatusStyle(status) {
+    if (status.toLowerCase() === 'success') {
+      return styles.succesStatusStyle;
+    } else {
+      return styles.pendingStatusStyle;
+    }
   }
 }
