@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 });
 
-class TransactionList extends React.Component {
+export default class TransactionList extends React.Component {
   constructor(props) {
     super(props);
 
@@ -46,6 +46,7 @@ class TransactionList extends React.Component {
         ) : (
           <View style={styles.container}>
             <SearchView
+              sortType={sortType}
               onClickSort={() => this.performSort(onSort)}
               onTextChanged={val => this.onSearch(val)}
             />
@@ -91,11 +92,11 @@ class TransactionList extends React.Component {
       );
     } else if (sortType === str_newest_date) {
       sorted = data.sort((a, b) =>
-        Date.parse(a.created_date) > Date.parse(b.created_date) ? 1 : -1,
+        Date.parse(a.created_at) < Date.parse(b.created_at) ? 1 : -1,
       );
     } else if (sortType === str_oldest_date) {
       sorted = data.sort((a, b) =>
-        Date.parse(a.created_date) < Date.parse(b.created_date) ? 1 : -1,
+        Date.parse(a.created_at) > Date.parse(b.created_at) ? 1 : -1,
       );
     } else {
       return;
@@ -110,20 +111,13 @@ class TransactionList extends React.Component {
     if (keyword === '') {
       filtered = dataTemp;
     } else {
+      const key = keyword.toLowerCase();
       filtered = dataTemp.filter(item => {
         return (
-          String(item.beneficiary_name.toLowerCase()).includes(
-            keyword.toLowerCase(),
-          ) ||
-          String(item.sender_bank.toLowerCase()).includes(
-            keyword.toLowerCase(),
-          ) ||
-          String(item.beneficiary_bank.toLowerCase()).includes(
-            keyword.toLowerCase(),
-          ) ||
-          String(item.amount.toString().toLowerCase()).includes(
-            keyword.toLowerCase(),
-          )
+          String(item.beneficiary_name.toLowerCase()).includes(key) ||
+          String(item.sender_bank.toLowerCase()).includes(key) ||
+          String(item.beneficiary_bank.toLowerCase()).includes(key) ||
+          String(item.amount.toString().toLowerCase()).includes(key)
         );
       });
     }
@@ -143,5 +137,3 @@ class TransactionList extends React.Component {
     }
   }
 }
-
-export default TransactionList;

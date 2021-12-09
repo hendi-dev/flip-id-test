@@ -1,5 +1,5 @@
 function toTitleCase(s) {
-  if (s.length > 3) {
+  if (s.length > 4) {
     return s.replace(/\w\S*/g, function (t) {
       return t.charAt(0).toUpperCase() + t.substr(1).toLowerCase();
     });

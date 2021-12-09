@@ -52,7 +52,9 @@ export class SearchView extends React.Component {
 
         <TouchableWithoutFeedback onPress={this.props.onClickSort}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: 'orange', fontWeight: '500'}}>{str_sort}</Text>
+            <Text style={{color: 'orange', fontWeight: '500'}}>
+              {this.props.sortType !== null ? this.props.sortType : str_sort}
+            </Text>
             <Icon
               name="chevron-down"
               size={14}
