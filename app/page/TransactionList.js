@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, ActivityIndicator, FlatList, View} from 'react-native';
 import {TransactionRepository} from '../repository/TransactionRepository';
 import {SearchView} from '../view/SearchView';
+import {SortDialog} from '../view/SortDialog';
 import {TransactionListItem} from '../view/TransactionListItem';
 
 const styles = StyleSheet.create({
@@ -17,6 +18,7 @@ class TransactionList extends React.Component {
     this.state = {
       data: [],
       isLoading: true,
+      onSort: false,
     };
   }
 
@@ -25,7 +27,7 @@ class TransactionList extends React.Component {
   }
 
   render() {
-    const {data, isLoading} = this.state;
+    const {data, isLoading, onSort} = this.state;
 
     return (
       <View style={styles.container}>
@@ -35,7 +37,7 @@ class TransactionList extends React.Component {
           </View>
         ) : (
           <View style={styles.container}>
-            <SearchView />
+            <SearchView onClickSort={() => this.performSort(onSort)} />
             <FlatList
               data={data}
               keyExtractor={({id}, index) => id}
@@ -48,10 +50,18 @@ class TransactionList extends React.Component {
                 />
               )}
             />
+            <SortDialog
+              modalVisible={onSort}
+              onRequestClose={() => this.performSort(onSort)}
+            />
           </View>
         )}
       </View>
     );
+  }
+
+  performSort(onSort) {
+    this.setState({onSort: !onSort});
   }
 
   async getTransaction() {

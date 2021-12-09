@@ -47,7 +47,7 @@ export class SearchView extends React.Component {
           placeholder={str_search_hint}
         />
 
-        <TouchableWithoutFeedback onPress={this.onSort}>
+        <TouchableWithoutFeedback onPress={this.props.onClickSort}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{color: 'orange', fontWeight: '500'}}>{str_sort}</Text>
             <Icon
@@ -60,9 +60,5 @@ export class SearchView extends React.Component {
         </TouchableWithoutFeedback>
       </View>
     );
-  }
-
-  onSort() {
-    console.log('MANTAB');
   }
 }
