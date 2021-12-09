@@ -19,6 +19,7 @@ class TransactionList extends React.Component {
       data: [],
       isLoading: true,
       onSort: false,
+      sortType: null,
     };
   }
 
@@ -27,7 +28,7 @@ class TransactionList extends React.Component {
   }
 
   render() {
-    const {data, isLoading, onSort} = this.state;
+    const {data, isLoading, onSort, sortType} = this.state;
 
     return (
       <View style={styles.container}>
@@ -53,6 +54,8 @@ class TransactionList extends React.Component {
             <SortDialog
               modalVisible={onSort}
               onRequestClose={() => this.performSort(onSort)}
+              sortType={sortType}
+              onSortSelected={sortType => this.onSortSelected(sortType)}
             />
           </View>
         )}
@@ -62,6 +65,11 @@ class TransactionList extends React.Component {
 
   performSort(onSort) {
     this.setState({onSort: !onSort});
+  }
+
+  onSortSelected(sortType) {
+    // TODO sort data
+    this.setState({onSort: false, sortType: sortType});
   }
 
   async getTransaction() {
