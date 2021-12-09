@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import toTitleCase, {formatDate, formatPrice} from '../util/Util';
 
 const cornerRadius = 8;
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     color: 'black',
-    marginTop: 6,
   },
   itemContainer: {
     margin: 16,
@@ -82,21 +82,46 @@ export class TransactionListItem extends React.Component {
         <View style={styles.card}>
           <View style={styles.cardLeft} />
           <View style={styles.itemContainer}>
-            <Text style={styles.bankLabel}>
-              {this.getBankLabel(
-                this.props.item.sender_bank,
-                this.props.item.beneficiary_bank,
-              )}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.bankLabel}>
+                {toTitleCase(this.props.item.sender_bank)}
+              </Text>
+              <Icon
+                name="arrow-right"
+                size={14}
+                color="black"
+                style={{marginHorizontal: 8}}
+              />
+              <Text style={styles.bankLabel}>
+                {toTitleCase(this.props.item.beneficiary_bank)}
+              </Text>
+            </View>
             <Text style={styles.nameLabel}>
               {this.props.item.beneficiary_name.toUpperCase()}
             </Text>
-            <Text style={styles.dateLabel}>
-              {this.getAmountAndDateLabel(
-                this.props.item.amount,
-                this.props.item.created_at,
-              )}
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 6,
+              }}>
+              <Text style={styles.dateLabel}>
+                {formatPrice(this.props.item.amount)}
+              </Text>
+              <Icon
+                name="circle"
+                size={8}
+                color="black"
+                style={{marginHorizontal: 8}}
+              />
+              <Text style={styles.dateLabel}>
+                {formatDate(this.props.item.created_at)}
+              </Text>
+            </View>
           </View>
           <Text style={this.getStatusStyle(this.props.item.status)}>
             {toTitleCase(this.props.item.status)}
@@ -104,14 +129,6 @@ export class TransactionListItem extends React.Component {
         </View>
       </TouchableWithoutFeedback>
     );
-  }
-
-  getBankLabel(sender, beneficiary) {
-    return toTitleCase(sender) + ' -> ' + toTitleCase(beneficiary);
-  }
-
-  getAmountAndDateLabel(amount, date) {
-    return formatPrice(amount) + ' . ' + formatDate(date);
   }
 
   getStatusStyle(status) {

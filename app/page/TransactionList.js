@@ -34,7 +34,7 @@ class TransactionList extends React.Component {
             <ActivityIndicator />
           </View>
         ) : (
-          <View>
+          <View style={styles.container}>
             <SearchView />
             <FlatList
               data={data}
