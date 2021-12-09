@@ -14,6 +14,7 @@ import {TransactionListItem} from '../view/TransactionListItem';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
   },
 });
 
@@ -57,7 +58,9 @@ export default class TransactionList extends React.Component {
                 <TransactionListItem
                   item={item}
                   onItemClick={() =>
-                    this.props.navigation.navigate('TransactionDetail')
+                    this.props.navigation.navigate('TransactionDetail', {
+                      data: item,
+                    })
                   }
                 />
               )}

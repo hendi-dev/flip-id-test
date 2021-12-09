@@ -19,11 +19,29 @@ const succesStatusStyle = {
   backgroundColor: 'green',
   color: 'white',
 };
+
 const pendingStatusStyle = {
   ...baseStatusStyle,
   borderColor: 'orange',
   borderWidth: 1,
   color: 'orange',
+};
+
+const baseCardLeft = {
+  width: 8,
+  height: '100%',
+  borderBottomStartRadius: cornerRadius,
+  borderTopStartRadius: cornerRadius,
+};
+
+const successCardLeft = {
+  ...baseCardLeft,
+  backgroundColor: 'green',
+};
+
+const pendingCardLeft = {
+  ...baseCardLeft,
+  backgroundColor: 'orange',
 };
 
 const styles = StyleSheet.create({
@@ -69,18 +87,16 @@ const styles = StyleSheet.create({
   },
   succesStatusStyle,
   pendingStatusStyle,
+  successCardLeft,
+  pendingCardLeft,
 });
 
 export class TransactionListItem extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.props.onItemClick}>
         <View style={styles.card}>
-          <View style={styles.cardLeft} />
+          <View style={this.getCardLeftStyle(this.props.item.status)} />
           <View style={styles.itemContainer}>
             <View
               style={{
@@ -129,6 +145,14 @@ export class TransactionListItem extends React.Component {
         </View>
       </TouchableWithoutFeedback>
     );
+  }
+
+  getCardLeftStyle(status) {
+    if (status.toLowerCase() === 'success') {
+      return styles.successCardLeft;
+    } else {
+      return styles.pendingCardLeft;
+    }
   }
 
   getStatusStyle(status) {

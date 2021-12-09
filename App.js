@@ -12,6 +12,7 @@ import TransactionList from './app/page/TransactionList';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import TransactionDetail from './app/page/TransactionDetail';
+import {str_transaction_detail} from './app/util/String';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,11 @@ function App() {
           component={TransactionList}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="TransactionDetail" component={TransactionDetail} />
+        <Stack.Screen
+          name="TransactionDetail"
+          component={TransactionDetail}
+          options={{title: str_transaction_detail}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
