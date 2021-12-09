@@ -42,7 +42,10 @@ export class SearchView extends React.Component {
       <View style={styles.searchBar}>
         <TextInput
           style={styles.input}
-          onChangeText={value => this.setState({text: value})}
+          onChangeText={value => {
+            this.setState({text: value});
+            this.props.onTextChanged(value);
+          }}
           value={text}
           placeholder={str_search_hint}
         />
